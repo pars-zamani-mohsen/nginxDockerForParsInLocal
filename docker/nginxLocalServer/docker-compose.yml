@@ -1,0 +1,46 @@
+version: '3'
+services:
+  nginx:
+    image: 'nginx:alpine'
+    container_name: 'nginx'
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "${NGINX_PORT}:80"
+      - "${NGINX_PORT_SSL}:443"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1024M
+        reservations:
+          cpus: '0.5'
+          memory: 215M
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - proxy
+
+  phpmyadmin:
+    image: 'phpmyadmin:latest'
+    container_name: phpmyadmin
+    ports:
+      - '80'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+    environment:
+      PMA_HOSTS: mysql_crm, mysql_apidynamic, mysql_exampleprojectsdocker
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+  proxy:
