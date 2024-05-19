@@ -35,7 +35,7 @@ services:
           cpus: '0.25'
           memory: 128M
     environment:
-      PMA_HOSTS: mysql_crm, mysql_apidynamic, mysql_exampleprojectsdocker
+      PMA_HOSTS: mysql_crm, mysql_exampleprojectsdocker
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
     restart: unless-stopped
